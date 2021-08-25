@@ -21,7 +21,7 @@ public final class RemoteFeedLoader: FeedLoader {
 	public func load(completion: @escaping (FeedLoader.Result) -> Void) {
 		client.get(from: url) { result in
 			switch result {
-			case .success(let ( data, httpResponse)):
+			case .success(let (data, httpResponse)):
 				guard httpResponse.statusCode == 200 else {
 					completion(.failure(Error.invalidData))
 					return
@@ -38,10 +38,10 @@ final class FeedImageMapper {
 	private struct RemoteObj: Decodable {
 		var remoteFeedImages: [RemoteFeedImage]
 		var feedImages: [FeedImage] {
-			remoteFeedImages.map { FeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url)}
+			remoteFeedImages.map { FeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
 		}
 	}
-	
+
 	private struct RemoteFeedImage: Decodable {
 		let id: UUID
 		let description: String?
