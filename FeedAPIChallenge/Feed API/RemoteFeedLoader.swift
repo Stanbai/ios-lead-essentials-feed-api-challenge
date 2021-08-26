@@ -34,15 +34,15 @@ final class FeedImageMapper {
 	private struct RemoteObj: Decodable {
 		var items: [RemoteFeedImage]
 		var feedImages: [FeedImage] {
-			items.map { FeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
+			items.map { FeedImage(id: $0.image_id, description: $0.image_desc, location: $0.image_loc, url: $0.image_url) }
 		}
 	}
 
 	private struct RemoteFeedImage: Decodable {
-		let id: UUID
-		let description: String?
-		let location: String?
-		let url: URL
+		let image_id: UUID
+		let image_desc: String?
+		let image_loc: String?
+		let image_url: URL
 	}
 
 	static func map(data: Data, from httpResponse: HTTPURLResponse) -> FeedLoader.Result {
