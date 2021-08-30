@@ -31,9 +31,9 @@ public final class RemoteFeedLoader: FeedLoader {
 	}
 }
 
-final class FeedImageMapper {
-	private struct RemoteObj: Decodable {
-		var items: [RemoteFeedImage]
+private enum FeedImageMapper {
+	private struct Remote: Decodable {
+		let items: [RemoteFeedImage]
 		var feedImages: [FeedImage] {
 			items.map { FeedImage(id: $0.image_id, description: $0.image_desc, location: $0.image_loc, url: $0.image_url) }
 		}
@@ -47,7 +47,7 @@ final class FeedImageMapper {
 	}
 
 	static func map(data: Data, from httpResponse: HTTPURLResponse) -> FeedLoader.Result {
-		guard httpResponse.statusCode == 200, let remoteItem = try? JSONDecoder().decode(RemoteObj.self, from: data) else {
+		guard httpResponse.statusCode == 200, let remoteItem = try? JSONDecoder().decode(Remote.self, from: data) else {
 			return .failure(RemoteFeedLoader.Error.invalidData)
 		}
 		return .success(remoteItem.feedImages)
